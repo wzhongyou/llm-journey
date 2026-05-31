@@ -1,0 +1,50 @@
+# LoRA 微调训练配置
+# 知识点：
+#   - stage: sft (监督微调，最常用的微调方式)
+#   - finetuning_type: lora (只训练低秩分解矩阵，显存友好)
+#   - lora_rank: LoRA 秩，越大可训练参数越多，8 是 1.5B 模型的甜点
+#   - lora_target: all 表示对所有线性层挂 LoRA
+#   - bf16: 4090 原生支持，比 fp16 更稳定
+#   - gradient_accumulation_steps: 等效 batch_size = 4 × 4 = 16
+
+### 模型
+model_name_or_path: Qwen/Qwen2.5-1.5B
+
+### 训练方法
+stage: sft
+finetuning_type: lora
+lora_rank: 8
+lora_target: all
+
+### 数据
+dataset: cmexam_train
+dataset_dir: ../..
+template: qwen
+cutoff_len: 1024
+
+### 训练超参
+per_device_train_batch_size: 4
+gradient_accumulation_steps: 4
+learning_rate: 2.0e-4
+num_train_epochs: 3
+lr_scheduler_type: cosine
+warmup_ratio: 0.1
+bf16: true
+
+### 保存与日志
+output_dir: ./output
+logging_steps: 10
+save_steps: 500
+save_total_limit: 3
+
+### 验证
+val_size: 0.0
+# 如需训练中验证，取消下面两行注释并使用 cmexam_val 数据集
+# dataset: cmexam_train
+# val_dataset: cmexam_val
+# eval_strategy: steps
+# eval_steps: 500
+
+### 监控
+report_to: wandb
+run_name: exp-001-cmexam-lora-r8

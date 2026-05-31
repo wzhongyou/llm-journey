@@ -1,0 +1,20 @@
+[project]
+name = "llm-journey"
+version = "0.1.0"
+description = "从零跑通大模型全链路：数据处理 → LoRA 微调 → 效果评测 → 推理部署 → 迭代调试"
+requires-python = ">=3.10"
+dependencies = [
+    "pandas>=2.0",
+    "datasets>=3.0",
+    "requests>=2.31",
+]
+
+[project.optional-dependencies]
+train = [
+    "transformers>=4.45",
+    "accelerate>=1.0",
+    "wandb>=0.18",
+]
+eval = [
+    "scikit-learn>=1.5",
+]

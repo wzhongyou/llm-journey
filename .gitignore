@@ -1,0 +1,53 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+.venv/
+venv/
+
+# LLaMA-Factory & llama.cpp
+llama_factory/
+llama.cpp/
+
+# 模型权重 & 训练产物
+02-train/output/checkpoint-*/
+02-train/output/*/adapter_*
+02-train/merged/
+04-serve/merged/
+*.safetensors
+*.bin
+*.gguf
+!04-serve/Modelfile
+
+# 评测结果（本地生成）
+03-eval/results_*.json
+03-eval/bad_cases.json
+
+# 数据文件（大文件不入库）
+01-data/raw/*.json
+01-data/raw/*.jsonl
+01-data/raw/*.parquet
+01-data/cleaned/*.json
+01-data/cleaned/*.jsonl
+01-data/cleaned/*.parquet
+
+# wandb
+wandb/
+02-train/wandb/
+
+# 工具产物
+.DS_Store
+*.swp
+*.swo
+
+# IDE
+.idea/
+.vscode/
+
+# uv
+.python-version
+
+# Claude
+.claude/

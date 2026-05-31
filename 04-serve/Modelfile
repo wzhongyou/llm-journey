@@ -1,0 +1,18 @@
+FROM ./merged/model-Q4_K_M.gguf
+
+# 系统提示词：医学问答场景
+SYSTEM """你是一个医学知识助手。请基于医学知识准确回答问题。对于选择题，请给出答案字母并解释理由。如果不确定，请诚实说明。"""
+
+# 推理参数
+PARAM temperature 0.3
+PARAM top_p 0.9
+PARAM max_tokens 512
+PARAM repeat_penalty 1.1
+
+# Qwen2 对话模板
+TEMPLATE """{{ if .System }}<|im_start|>system
+{{ .System }}<|im_end|>
+{{ end }}{{ if .Prompt }}<|im_start|>user
+{{ .Prompt }}<|im_end|>
+{{ end }}<|im_start|>assistant
+{{ .Response }}<|im_end|>"""

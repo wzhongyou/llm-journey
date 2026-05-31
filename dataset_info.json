@@ -1,0 +1,16 @@
+{
+  "cmexam_train": {
+    "file_name": "01-data/cleaned/cmexam_train.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations"
+    }
+  },
+  "cmexam_val": {
+    "file_name": "01-data/cleaned/cmexam_val.json",
+    "formatting": "sharegpt",
+    "columns": {
+      "messages": "conversations"
+    }
+  }
+}
