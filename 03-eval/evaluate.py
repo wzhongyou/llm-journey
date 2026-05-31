@@ -1,14 +1,14 @@
 """
 效果评测：基座模型 vs 微调模型对比
 
-知识点：
-- 通过 Ollama REST API 推理（本地部署，无需 GPU）
-- 结构化评测：领域问题 + 通用问题
-- 自动评分：对选择题可直接比对答案字母
-- bad case 自动提取：答错的题目归档，驱动数据迭代
+你会在这一步学到：
+1. 通过 Ollama REST API 调用模型推理（本地部署，无需 GPU）
+2. 结构化评测：医学领域问题 + 通用能力问题
+3. 自动评分：用正则从模型回答中提取答案字母，比对标准答案
+4. Bad case 自动提取：答错的题目归档，驱动数据迭代
 
 用法：
-    python evaluate.py                                    # 完整评测
+    python evaluate.py                                    # 完整评测（基座+微调对比）
     python evaluate.py --base-only                        # 仅评测基座模型（建立基线）
     python evaluate.py --model my-qwen-finetuned          # 指定微调模型名
 
@@ -62,11 +62,7 @@ def call_ollama(model: str, question: str) -> str:
 
 def extract_answer(text: str) -> str | None:
     """
-    从模型回答中提取答案字母
-
-    知识点：
-    - 微调后模型可能输出"答案：A"或"答案是A"等多种格式
-    - 正则提取第一个出现的 A-E 字母
+    从模型回答中提取答案字母（支持"答案：A""选A""A."等多种格式）
     """
     patterns = [
         r"答案[是为：:]\s*([A-E])",  # 答案：A / 答案是A

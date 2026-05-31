@@ -1,14 +1,12 @@
 #!/bin/bash
 # 推理部署：合并 LoRA → 量化 GGUF → 注册 Ollama
 #
-# 知识点：
-#   - LoRA adapter 是轻量差异权重，需合并回基座才能独立使用
-#   - GGUF 是 llama.cpp 的量化格式，Q4_K_M 在精度/体积间取得平衡
-#   - Ollama 加载 GGUF 模型，提供 OpenAI 兼容的 REST API
+# 你会在这一步学到：
+#   - LoRA adapter 是差异权重（~10M 参数），不能独立使用，需合并回基座
+#   - GGUF 是 llama.cpp 专有格式，Q4_K_M 精度/体积平衡点
+#   - Ollama 加载 GGUF 模型后提供 OpenAI 兼容 REST API
 #
-# 前提：
-#   - 本地已安装 LLaMA-Factory（含 export 功能）
-#   - 02-train/output/ 下有 LoRA adapter 权重
+# 前提：本地已装 LLaMA-Factory（含 export），02-train/output/ 下有 adapter 权重
 
 set -e
 

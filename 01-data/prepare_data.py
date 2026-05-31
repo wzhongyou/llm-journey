@@ -1,11 +1,11 @@
 """
 数据工程全流程：下载 → 清洗 → 格式转换 → 划分
 
-知识点：
-- HuggingFace datasets 加载公开数据集（需网络）
-- pandas 数据清洗（去重、过滤短文本）
-- ShareGPT 格式转换（LLaMA-Factory 原生支持）
-- 训练/验证/测试集划分
+你会在这一步学到：
+1. HuggingFace datasets 加载公开数据集（需网络，失败自动 fallback）
+2. pandas 数据清洗：去重 → 去空 → 过滤短文本
+3. 转 ShareGPT 格式：LLaMA-Factory 原生支持的对话格式，conversations 列表支持多轮
+4. 训练/验证/测试集 80/10/10 划分，固定 seed 保证可复现
 
 用法：
     python prepare_data.py                    # 下载 CMExam（需网络）
@@ -93,12 +93,7 @@ def load_demo() -> pd.DataFrame:
 
 def clean(df: pd.DataFrame) -> pd.DataFrame:
     """
-    数据清洗
-
-    知识点：
-    - 去重：同一问题多次出现会浪费训练资源
-    - 过滤空值：缺失关键字段的数据无法构成有效对话
-    - 过滤短文本：过短的问题/答案信息量不足
+    数据清洗：去重 → 去空 → 过滤短文本
     """
     print("[2/4] 数据清洗")
     before = len(df)
@@ -115,12 +110,7 @@ def clean(df: pd.DataFrame) -> pd.DataFrame:
 
 def convert_to_sharegpt(df: pd.DataFrame) -> list[dict]:
     """
-    转换为 ShareGPT 格式
-
-    知识点：
-    - ShareGPT 是 LLaMA-Factory 原生支持的对话格式
-    - conversations 列表支持多轮对话（本数据集为单轮）
-    - from 字段: human/gpt 对应问答双方
+    转换为 ShareGPT 格式（LLaMA-Factory 原生支持）
     """
     print("[3/4] 格式转换 → ShareGPT")
     records = []
@@ -142,12 +132,7 @@ def convert_to_sharegpt(df: pd.DataFrame) -> list[dict]:
 
 def split_and_save(records: list[dict], seed: int = 42) -> None:
     """
-    划分训练/验证/测试集并保存
-
-    知识点：
-    - 80/10/10 划分是常用比例
-    - 测试集严格 held-out，训练全程不可见
-    - 固定 random seed 保证可复现
+    划分训练/验证/测试集（80/10/10），固定 seed 保证可复现
     """
     print("[4/4] 划分数据集")
     random.seed(seed)

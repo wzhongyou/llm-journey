@@ -1,11 +1,10 @@
 #!/bin/bash
-# LoRA 微调启动脚本
-# 在 AutoDL 4090 实例上运行
+# LoRA 微调启动脚本（在 AutoDL 4090 实例上运行）
 #
-# 知识点：
-#   - llamafactory-cli 是 LLaMA-Factory 的统一命令行入口
-#   - 训练前确保数据已上传到云端，dataset_info.json 已放到 LLaMA-Factory 目录
-#   - wandb 需要先 wandb login
+# 你会在这一步学到：
+#   - llamafactory-cli: LLaMA-Factory 的统一命令行入口，train/eval/export 都通过它
+#   - dataset_info.json 注册机制：LLaMA-Factory 通过 data/dataset_info.json 发现数据集
+#   - 训练前确保数据已上传到云端，wandb login 已执行
 
 set -e
 

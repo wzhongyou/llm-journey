@@ -1,11 +1,14 @@
 # LoRA 微调训练配置
-# 知识点：
-#   - stage: sft (监督微调，最常用的微调方式)
-#   - finetuning_type: lora (只训练低秩分解矩阵，显存友好)
-#   - lora_rank: LoRA 秩，越大可训练参数越多，8 是 1.5B 模型的甜点
-#   - lora_target: all 表示对所有线性层挂 LoRA
-#   - bf16: 4090 原生支持，比 fp16 更稳定
-#   - gradient_accumulation_steps: 等效 batch_size = 4 × 4 = 16
+#
+# 你会在这一步学到（对照下面的参数看）：
+#   - stage=sft: 监督微调，用标注数据教模型学会输出格式
+#   - finetuning_type=lora: 只更新低秩矩阵（~10M 参数），冻结 1.5B 基座
+#   - lora_rank=8: 秩越大可学参数越多，8 是 1.5B 模型的甜点（r=16 效果更好但更慢）
+#   - lora_target=all: 对所有线性层挂 LoRA，覆盖最广
+#   - bf16: 4090 原生支持，比 fp16 数值稳定，比 fp32 省显存
+#   - gradient_accumulation_steps=4: 等效 batch_size = 4 × 4 = 16
+#
+# 完整理解这些参数后，可以试改 lora_rank 或 learning_rate 观察效果
 
 ### 模型
 model_name_or_path: Qwen/Qwen2.5-1.5B
